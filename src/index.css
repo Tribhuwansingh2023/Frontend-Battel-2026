@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Armory — design tokens
+  Palette (from official brief):
+    Oceanic Noir     #172B36   -> background
+    Nocturnal Exped. #114C5A   -> primary surface / deep teal
+    Mystic Mint      #D9E8E2   -> subtle surface, muted text on dark
+    Arctic Powder    #F1F6F4   -> foreground / light surface
+    Forsythia        #FFC801   -> primary accent (yellow)
+    Deep Saffron     #FF9932   -> secondary accent (orange)
+  Fonts: JetBrains Mono (display / labels), Inter (body / UI)
+*/
+
+@layer base {
+  :root {
+    /* HSL tokens consumed by tailwind theme + shadcn variables */
+    --background: 156 24% 95%;            /* Arctic Powder #F1F6F4 */
+    --foreground: 200 41% 15%;            /* Oceanic Noir #172B36 */
+
+    --card: 152 20% 88%;                  /* Mystic Mint */
+    --card-foreground: 200 41% 15%;
+    --popover: 156 24% 95%;
+    --popover-foreground: 200 41% 15%;
+
+    --primary: 48 100% 50%;               /* Forsythia */
+    --primary-foreground: 200 41% 12%;
+
+    --secondary: 152 20% 88%;             /* Mystic Mint */
+    --secondary-foreground: 200 41% 15%;
+
+    --muted: 152 20% 88%;
+    --muted-foreground: 200 30% 32%;      /* Darker grey for readability */
+
+    --accent: 30 100% 60%;                /* Deep Saffron */
+    --accent-foreground: 200 41% 12%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 156 24% 95%;
+
+    --border: 200 20% 80%;
+    --input: 200 20% 80%;
+    --ring: 48 100% 50%;
+
+    --radius: 0.875rem;
+
+    /* brand raw hexes */
+    --c-oceanic: #172B36;
+    --c-nocturnal: #114C5A;
+    --c-mint: #D9E8E2;
+    --c-arctic: #F1F6F4;
+    --c-forsythia: #FFC801;
+    --c-saffron: #FF9932;
+
+    --grad-accent: linear-gradient(135deg, var(--c-forsythia) 0%, var(--c-saffron) 100%);
+    --grad-text: linear-gradient(180deg, var(--c-oceanic) 0%, hsl(192 68% 21%) 100%);
+    --grad-border: linear-gradient(135deg, hsl(48 100% 50% / 0.45), hsl(30 100% 60% / 0.18), transparent 70%);
+
+    --shadow-card: 0 1px 0 hsl(200 41% 15% / 0.05) inset, 0 30px 80px -40px hsl(200 60% 4% / 0.1);
+    --shadow-glow: 0 30px 80px -20px hsl(48 100% 50% / 0.25);
+  }
+
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv11';
+    background-image:
+      radial-gradient(900px 600px at 80% -10%, hsl(48 100% 50% / 0.10), transparent 60%),
+      radial-gradient(700px 500px at -10% 10%, hsl(192 68% 25% / 0.15), transparent 60%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4, .display, .mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+  ::selection { background: hsl(48 100% 50% / 0.45); color: hsl(200 41% 12%); }
+}
+
+@layer components {
+  .container-px { @apply px-5 sm:px-8 lg:px-12; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    @apply text-[11px] uppercase tracking-[0.22em] text-[color:var(--c-forsythia)];
+  }
+  .gradient-text { background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .accent-text { background: var(--grad-accent); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .glass {
+    background: hsl(156 24% 95% / 0.75);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border: 1px solid hsl(200 41% 15% / 0.1);
+  }
+  .card-surface {
+    background: linear-gradient(180deg, hsl(156 24% 95%) 0%, hsl(152 20% 88%) 100%);
+    border: 1px solid hsl(200 41% 15% / 0.1);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius);
+  }
+  .surface-light {
+    background: var(--c-oceanic);
+    color: var(--c-arctic);
+    border-radius: var(--radius);
+  }
+
+  .btn-primary {
+    background: var(--c-forsythia);
+    color: var(--c-oceanic);
+    box-shadow: 0 8px 24px -8px hsl(48 100% 50% / 0.6), inset 0 1px 0 hsl(0 0% 100% / 0.3);
+    transition: transform .18s ease-out, box-shadow .18s ease-out, filter .18s ease-out;
+  }
+  .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 14px 36px -10px hsl(48 100% 50% / 0.7); }
+
+  .btn-ghost {
+    background: hsl(200 41% 15% / 0.05);
+    border: 1px solid hsl(200 41% 15% / 0.15);
+    color: hsl(var(--foreground));
+    transition: background .18s ease-out, border-color .18s ease-out, transform .18s ease-out;
+  }
+  .btn-ghost:hover { background: hsl(200 41% 15% / 0.10); border-color: hsl(200 41% 15% / 0.25); transform: translateY(-1px); }
+
+  .ring-grad { position: relative; }
+  .ring-grad::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+    background: var(--grad-border);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none;
+  }
+  .focus-ring:focus-visible { outline: 2px solid var(--c-forsythia); outline-offset: 2px; border-radius: 8px; }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(200 41% 15% / 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(200 41% 15% / 0.08) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 40%, transparent 80%);
+  }
+
+  /* hairline section separator */
+  .hairline { border-top: 1px solid hsl(0 0% 100% / 0.07); }
+}
+
+@layer utilities {
+  .reveal { opacity: 0; transform: translateY(10px); animation: reveal .42s cubic-bezier(.2,.7,.2,1) forwards; }
+  .reveal-2 { animation-delay: .08s; }
+  .reveal-3 { animation-delay: .16s; }
+  .reveal-4 { animation-delay: .24s; }
+  .reveal-5 { animation-delay: .32s; }
+
+  .float-slow { animation: floaty 10s ease-in-out infinite; }
+  .spin-slow { animation: spin 22s linear infinite; }
+  .pulse-soft { animation: pulseSoft 3.4s ease-in-out infinite; }
+  .marquee { animation: marquee 42s linear infinite; }
+  .marquee:hover { animation-play-state: paused; }
+  .shimmer {
+    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.08), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2.2s linear infinite;
+  }
+}
+
+@keyframes reveal { to { opacity: 1; transform: none; } }
+@keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulseSoft { 0%,100%{opacity:.7} 50%{opacity:1} }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes cmdkFlash {
+  0%   { box-shadow: 0 0 0 0 hsl(48 100% 50% / 0); }
+  20%  { box-shadow: 0 0 0 6px hsl(48 100% 50% / 0.18), 0 0 60px hsl(48 100% 50% / 0.15); }
+  100% { box-shadow: 0 0 0 0 hsl(48 100% 50% / 0); }
+}
+.cmdk-flash { animation: cmdkFlash 1s ease-out; border-radius: 1rem; }
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .float-slow, .spin-slow, .pulse-soft, .marquee, .shimmer {
+    animation: none !important; opacity: 1 !important; transform: none !important;
+  }
+  html { scroll-behavior: auto; }
+}
